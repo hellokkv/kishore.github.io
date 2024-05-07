@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Temple Towns of Tamil Nadu</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Main Temple Towns of Tamil Nadu</h1>
+    <div id="map"></div>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: {lat: 11.1271, lng: 78.6569}
+            });
+
+            var locations = [
+                {title: 'Mahabalipuram', location: {lat: 12.6269, lng: 80.1928}},
+                {title: 'Kanchipuram', location: {lat: 12.8380, lng: 79.7003}},
+                {title: 'Tiruvannamalai', location: {lat: 12.2266, lng: 79.0747}},
+                {title: 'Thanjavur', location: {lat: 10.7905, lng: 79.1378}},
+                {title: 'Trichy', location: {lat: 10.7905, lng: 78.7047}},
+                {title: 'Madurai', location: {lat: 9.9252, lng: 78.1198}}
+            ];
+
+            var infowindows = [];
+            var bounds = new google.maps.LatLngBounds();
+            
+            locations.forEach(function(place) {
+                var marker = new google.maps.Marker({
+                    position: place.location,
+                    map: map,
+                    title: place.title
+                });
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: place.title
+                });
+
+                marker.addListener('click', function() {
+                    closeAllInfoWindows();
+                    infowindow.open(map, marker);
+                });
+
+                infowindows.push(infowindow);
+                bounds.extend(marker.getPosition());
+            });
+
+            function closeAllInfoWindows() {
+                infowindows.forEach(function(window) {
+                    window.close();
+                });
+            }
+
+            map.fitBounds(bounds);
+        }
+    </script>
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+</body>
+</html>
